@@ -27,13 +27,19 @@ def get_info():
 def clear(content):
     """数据清洗"""
     reg = re.compile('(jQuery.*\()|\\\|\)|\n')
-    content_1 = re.sub(reg ,'',content)
+    content_1 = re.sub(reg, '', content)
     return content_1
 
-if __name__ == '__main__':
+
+def run():
     content = get_info()
     data_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
-    if not os.path.exists('res'):
-        os.mkdir('res')
     with open('res/' + data_time + '.js', 'w', encoding="UTF-8") as file:
         file.write(clear(content))
+
+
+if __name__ == '__main__':
+    if not os.path.exists('res'):
+        os.mkdir('res')
+    scheduler = BlockingScheduler()
+    scheduler.add_job(run, 'interval', hours=12)
