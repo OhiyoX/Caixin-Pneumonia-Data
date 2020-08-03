@@ -43,3 +43,7 @@ if __name__ == '__main__':
         os.mkdir('res')
     scheduler = BlockingScheduler()
     scheduler.add_job(run, 'interval', hours=12)
+    try:
+        scheduler.start()
+    except(SystemExit, KeyboardInterrupt):
+        pass
